@@ -17,5 +17,5 @@ const lightbox = new SimpleLightbox(".gallery a", {
   captionType: "attr",
   captionsData: "alt",
   captionPosition: "bottom",
-  captionDelay: "250ms",
+  captionDelay: "250",
 });

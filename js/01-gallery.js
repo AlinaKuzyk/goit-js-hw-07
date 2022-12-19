@@ -18,6 +18,7 @@ const createGalleryItems = galleryItems
 
 divEl.insertAdjacentHTML("afterbegin", createGalleryItems);
 
+let instance = {};
 const handleOpenImg = (event) => {
   event.preventDefault();
 
@@ -25,18 +26,25 @@ const handleOpenImg = (event) => {
     return;
   }
 
-  let bannerImg = event.target.dataset.source;
-  const instance = basicLightbox.create(`
+   let bannerImg = event.target.dataset.source;
+   
+  instance = basicLightbox.create(`
     <img src="${bannerImg}" width="800" height="600">`);
-
-  instance.show();
-
-  const handleCloseModal = (event) => {
-    if (event.code === "Escape") {
-      instance.close();
-    }
-  };
+   
+  if (basicLightbox.visible()) {
+    divEl.removeEventListener("click", handleOpenImg);
+  }
+   
+   instance.show();
+   
   document.addEventListener("keydown", handleCloseModal);
 };
 
 divEl.addEventListener("click", handleOpenImg);
+
+const handleCloseModal = (event) => {
+  if (event.code === "Escape") {
+    instance.close();
+    document.removeEventListener("keydown", handleCloseModal);
+  }
+};
